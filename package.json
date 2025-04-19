@@ -1,7 +1,7 @@
 {
-  "name": "maxflow-client",
-  "version": "1.0.0",
-  "description": "Client library for MaxFlow API",
+  "name": "@maxflow/client",
+  "version": "0.1.0",
+  "description": "Client library for Maxflow API",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "files": [
@@ -10,6 +10,7 @@
   "scripts": {
     "build": "tsc",
     "prepare": "yarn build",
+    "prepublishOnly": "npm run build",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
@@ -24,8 +25,7 @@
   },
   "license": "MIT",
   "dependencies": {
-    "axios": "^1.8.4",
-    "typescript": "^5.7.3"
+    "axios": "^1.8.4"
   },
   "devDependencies": {
     "typescript": "^5.7.3"
