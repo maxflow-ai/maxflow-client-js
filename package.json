@@ -1,33 +1,51 @@
 {
   "name": "@maxflow/client",
   "version": "0.2.1",
-  "description": "Client library for Maxflow API",
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
-  "files": [
-    "dist"
-  ],
-  "scripts": {
-    "build": "tsc",
-    "prepare": "yarn build",
-    "prepublishOnly": "npm run build",
-    "test": "echo \"Error: no test specified\" && exit 1"
+  "description": "Client library for MaxFlow API",
+  "keywords": ["maxflow", "ai","client"],
+  "homepage": "https://github.com/maxflow-ai/maxflow-client-js#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/maxflow-ai/maxflow-client-js.git"
   },
-  "keywords": [
-    "maxflow",
-    "api",
-    "client"
-  ],
+  "bugs": {
+    "url": "https://github.com/maxflow-ai/maxflow-client-js/issues"
+  },
   "author": {
-    "name": "MaxFlow",
+    "name": "Maxflow",
     "email": "hello@maxflow.cloud",
     "url": "https://maxflow.cloud"
   },
   "license": "MIT",
+
+  "main": "dist/index.js",
+  "module": "dist/index.esm.js",
+  "types": "dist/index.d.ts",
+  "files": ["dist"],
+
+  "scripts": {
+    "build": "tsc",
+    "prepare": "yarn build",
+    "prepublishOnly": "yarn build",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "eslint . --ext .ts"
+  },
+
+  "engines": {
+    "node": ">=14"
+  },
+
+  "publishConfig": {
+    "access": "public"
+  },
+
   "dependencies": {
     "axios": "^1.8.4"
   },
+
   "devDependencies": {
-    "typescript": "^5.7.3"
+    "typescript": "^5.7.3",
+    "eslint": "^8",
+    "@types/node": "^18"
   }
 }
