@@ -1,7 +1,7 @@
 {
   "name": "@maxflow/client",
   "version": "0.2.1",
-  "description": "Client library for MaxFlow API",
+  "description": "Client library for Maxflow API",
   "keywords": ["maxflow", "ai","client"],
   "homepage": "https://github.com/maxflow-ai/maxflow-client-js#readme",
   "repository": {

@@ -1,2 +1,2 @@
-import MaxFlow from './maxflow';
-export default MaxFlow;
+import MaxflowClient from './maxflowClient';
+export default MaxflowClient;
