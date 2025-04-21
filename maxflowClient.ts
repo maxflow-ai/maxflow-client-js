@@ -65,7 +65,7 @@ export interface findData {
 /**
  * Primary client class for Maxflow API
  */
-class MaxflowClient {
+export default class MaxflowClient {
   private apiKey: string | null = null;   // Holds API key
   private apiSecret: string | null = null;// Holds API secret
   private teamId: string | null = null;   // Holds Team ID
@@ -268,5 +268,3 @@ class MaxflowClient {
       this.http().put(`/api/pulse/${pulse_id}`, data)
   };
 }
-
-export default MaxflowClient;
