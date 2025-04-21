@@ -294,8 +294,8 @@ async PublicGetStatus(public_id: string) {
       return this.http().get(`/api/pulse/?o=${encoded}`);
     },
 
-    delete: async (pulse_id: string) =>
-      this.http().delete(`/api/pulse/${pulse_id}`),
+    delete: async (pulse_id: Record<string, Array<string>>) =>
+      this.http().delete(`/api/pulse`, pulse_id),
 
     update: async (pulse_id: string, data: Record<string, any>) =>
       this.http().put(`/api/pulse/${pulse_id}`, data)
