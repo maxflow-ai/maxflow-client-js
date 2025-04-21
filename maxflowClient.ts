@@ -94,7 +94,17 @@ export default class MaxflowClient {
   /**
    * Lazily instantiate and configure Axios instance
    */
-  private http(): AxiosInstance {
+  private http(auth = true): AxiosInstance {
+    if (auth==false) {
+      this.axiosInstance = axios.create({
+        baseURL: this.baseURL,
+        timeout: 10000,
+        headers: {
+          'x-max-team-id': this.teamId
+        }
+      });
+      return this.axiosInstance;
+    }
     if (!this.axiosInstance) {
       // Validate credentials before first use
       this.validateConfig();
@@ -213,6 +223,29 @@ export default class MaxflowClient {
       throw error;
     }
   }
+
+/**
+ * Trigger a shaired workflow run endpoint without authentication
+ */
+async PublicRun(public_id: string, options: RunOptions) {
+  try {
+    return await this.http(false).post(`/api/share/${this.teamId}/${public_id}`, )
+ }
+ catch (error) {
+  throw error;
+ } 
+}
+
+/**
+ * Get the status of a shared workflow
+ */
+async PublicGetStatus(public_id: string) {
+  try {
+    return await this.http(false).get(`/api/share/${this.teamId}/${public_id}`);
+  } catch (error) {
+    throw error;
+  }
+}
 
   /**
    * Fetch execution logs/status by ID
