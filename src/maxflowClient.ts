@@ -228,9 +228,9 @@ export default class MaxflowClient {
   }
 
 /**
- * Trigger a shaired workflow run endpoint without authentication
+ * Trigger a shared workflow run endpoint without authentication
  */
-async PublicRun(public_id: string, options: RunOptions={}) {
+async runPublic(public_id: string, options: RunOptions={}) {
   try {
     return await this.http(false).post(`/api/share/${this.teamId}/${public_id}${options?.callbackUrl ? '?callbackUrl=' + options.callbackUrl : ''}`,{
       params: options?.params,
@@ -245,7 +245,7 @@ async PublicRun(public_id: string, options: RunOptions={}) {
 /**
  * Get the status of a shared workflow
  */
-async PublicGetStatus(execution_id:string,public_id: string) {
+async getRunPublicStatus(execution_id:string, public_id: string) {
   try {
     return await this.http(false).get(`/api/workflow/log?logId=${execution_id}&publicId=${public_id}`);
   } catch (error) {
