@@ -227,9 +227,9 @@ export default class MaxflowClient {
 /**
  * Trigger a shaired workflow run endpoint without authentication
  */
-async PublicRun(public_id: string, options: RunOptions) {
+async PublicRun(public_id: string) {
   try {
-    return await this.http(false).post(`/api/share/${this.teamId}/${public_id}`, )
+    return await this.http(false).post(`/api/share/${this.teamId}/${public_id}`)
  }
  catch (error) {
   throw error;
@@ -239,9 +239,9 @@ async PublicRun(public_id: string, options: RunOptions) {
 /**
  * Get the status of a shared workflow
  */
-async PublicGetStatus(public_id: string) {
+async PublicGetStatus(execution_id:string,public_id: string) {
   try {
-    return await this.http(false).get(`/api/share/${this.teamId}/${public_id}`);
+    return await this.http(false).get(`/api/workflow/log?logId=${execution_id}&publicId=${public_id}`);
   } catch (error) {
     throw error;
   }
@@ -262,11 +262,14 @@ async PublicGetStatus(public_id: string) {
    * CRUD operations for "pulse" resources
    */
   pulse = {
-    create: async (data: Record<string, any> | Record<string, any>[]) =>
-      this.http().post('/api/pulse', data),
+    create: async (data: Record<string, any> | Record<string, any>[]) =>{
+      
+      return this.http().post('/api/pulse', data)
+    },
 
-    get: async (pulse_id: string) =>
-      this.http().get(`/api/pulse/${pulse_id}`),
+    get: async (pulse_id: string) =>{
+      return this.http().get(`/api/pulse/${pulse_id}`)
+    },
 
     find: async (data: findData) => {
       // Build query object from findData
@@ -294,10 +297,12 @@ async PublicGetStatus(public_id: string) {
       return this.http().get(`/api/pulse/?o=${encoded}`);
     },
 
-    delete: async (pulse_id: Record<string, Array<string>>) =>
-      this.http().delete(`/api/pulse`, pulse_id),
+    delete: async (pulse_id: any) => {
+      return this.http().delete(`/api/pulse/${pulse_id}`)
+    },
 
-    update: async (pulse_id: string, data: Record<string, any>) =>
-      this.http().put(`/api/pulse/${pulse_id}`, data)
+    update: async (pulse_id: string, data: Record<string, any>) =>{
+      return this.http().put(`/api/pulse/${pulse_id}`, data)
+    }
   };
 }
