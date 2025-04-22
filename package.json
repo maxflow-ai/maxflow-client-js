@@ -1,6 +1,6 @@
 {
   "name": "@maxflow/client",
-  "version": "0.2.4",
+  "version": "0.2.5",
   "description": "Client library for Maxflow API",
   "keywords": [
     "maxflow",
@@ -24,6 +24,7 @@
   "main": "dist/index.js",
   "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
+  "type": "commonjs",
   "exports": {
     ".": {
       "import": "./dist/index.mjs",
