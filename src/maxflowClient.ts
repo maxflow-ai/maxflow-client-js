@@ -127,7 +127,7 @@ export default class MaxflowClient {
   /**
    * Set or update the API key
    */
-  setApiKey(key: string) { this.apiKey = key; return this; }
+  setApiKey(key: string,secret:string) { this.apiKey = key; this.apiSecret = secret; return this; }
 
   /**
    * Set or update the Team ID
