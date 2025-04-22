@@ -191,18 +191,21 @@ export default class MaxflowClient {
     if (this.pushTimeout) { clearTimeout(this.pushTimeout); this.pushTimeout = null; }
     if (this.maxAgeTimeout) { clearTimeout(this.maxAgeTimeout); this.maxAgeTimeout = null; }
 
+    // Process each queued item individually
     try {
-      // Send all queued items in parallel
-      await Promise.all(snapshot.map(async (item) => {
-        try {
-          item.resolve(await this.pulse.push(item.data));
-        } catch (error) {
-          item.reject(error);
-        }
-      }));
+      await Promise.all(
+        snapshot.map(item =>
+          this.pulse.push(item.data)
+            .then(response => {
+              item.resolve(response);
+            })
+            .catch(error => {
+              item.reject(error);
+            })
+        )
+      );
     } catch (error) {
-      // If something fails, reject all
-      snapshot.forEach(item => item.reject(error));
+      console.log(error)
     }
   }
 
