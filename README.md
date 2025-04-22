@@ -5,19 +5,19 @@ A lightweight, flexible JavaScript/TypeScript client for interacting with the Ma
 ## Installation
 
 ```bash
-npm install maxflow-client
+npm install @maxflow/client
 ```
 
 or
 
 ```bash
-yarn add maxflow-client
+yarn add @maxflow/client
 ```
 
 ## Quick Start
 
 ```javascript
-import MaxflowClient from 'maxflow-client';
+import MaxflowClient from '@maxflow/client';
 
 // Initialize the client
 const client = new MaxflowClient({
@@ -250,7 +250,7 @@ try {
 This library includes TypeScript definitions for all methods and interfaces:
 
 ```typescript
-import MaxflowClient, { MaxflowConfig, RunOptions, findData } from 'maxflow-client';
+import MaxflowClient, { MaxflowConfig, RunOptions, findData } from '@maxflow/client';
 
 // Type-safe configuration
 const config: MaxflowConfig = {
