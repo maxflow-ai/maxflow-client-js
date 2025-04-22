@@ -36,7 +36,7 @@ export interface PushOptions {
 export interface RunOptions {
   data?: any;             // Request payload
   params?: any;           // URL query parameters
-  callback_url?: string;  // Webhook to receive completion events
+  callbackUrl?: string;  // Webhook to receive completion events
 }
 
 /**
@@ -153,7 +153,7 @@ export default class MaxflowClient {
    */
   async push(reqdata: any, options?: PushOptions): Promise<any> {
     // Immediate send bypasses queue
-    if (options?.immediately) return this.pulse.create(reqdata);
+    if (options?.immediately) return this.pulse.push(reqdata);
 
     // Return a promise that resolves when the batch is processed
     return new Promise((resolve, reject) => {
@@ -195,7 +195,7 @@ export default class MaxflowClient {
       // Send all queued items in parallel
       await Promise.all(snapshot.map(async (item) => {
         try {
-          item.resolve(await this.pulse.create(item.data));
+          item.resolve(await this.pulse.push(item.data));
         } catch (error) {
           item.reject(error);
         }
@@ -209,14 +209,14 @@ export default class MaxflowClient {
   /**
    * Trigger a workflow run endpoint
    */
-  async run(workflow_id: string, options: RunOptions) {
+  async run(workflow_id: string, options: RunOptions={}) {
     try {
       return await this.http().post(
-        `/api/workflow/run/${workflow_id}`,
+        `/api/workflow/run/${workflow_id}${options?.callbackUrl ? '?callbackUrl=' + options.callbackUrl : ''}`,
         {
-          params: options.params,
-          payload: options.data,
-          callback_url: options.callback_url
+          params: options?.params,
+          payload: options?.data,
+          
         }
       );
     } catch (error) {
@@ -227,9 +227,12 @@ export default class MaxflowClient {
 /**
  * Trigger a shaired workflow run endpoint without authentication
  */
-async PublicRun(public_id: string) {
+async PublicRun(public_id: string, options: RunOptions={}) {
   try {
-    return await this.http(false).post(`/api/share/${this.teamId}/${public_id}`)
+    return await this.http(false).post(`/api/share/${this.teamId}/${public_id}${options?.callbackUrl ? '?callbackUrl=' + options.callbackUrl : ''}`,{
+      params: options?.params,
+      payload: options?.data
+    })
  }
  catch (error) {
   throw error;
@@ -262,7 +265,7 @@ async PublicGetStatus(execution_id:string,public_id: string) {
    * CRUD operations for "pulse" resources
    */
   pulse = {
-    create: async (data: Record<string, any> | Record<string, any>[]) =>{
+    push: async (data: Record<string, any> | Record<string, any>[]) =>{
       
       return this.http().post('/api/pulse', data)
     },
@@ -298,11 +301,10 @@ async PublicGetStatus(execution_id:string,public_id: string) {
     },
 
     delete: async (pulse_id: any) => {
-      return this.http().delete(`/api/pulse/${pulse_id}`)
-    },
-
-    update: async (pulse_id: string, data: Record<string, any>) =>{
-      return this.http().put(`/api/pulse/${pulse_id}`, data)
+     const pulseIds = Array.isArray(pulse_id) ? pulse_id : [pulse_id];
+      return this.http().delete(`/api/pulse`, {
+        data: pulseIds
+      });
     }
   };
 }
