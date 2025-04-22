@@ -69,7 +69,7 @@ export default class MaxflowClient {
   private apiKey: string | null = null;   // Holds API key
   private apiSecret: string | null = null;// Holds API secret
   private teamId: string | null = null;   // Holds Team ID
-  private baseURL = 'https://maxflow.cloud'; // Default API URL
+  private baseURL = 'https://app.maxflow.cloud'; // Default API URL
 
   private queue: QueueItem[] = [];        // Internal queue buffer
   private pushTimeout: ReturnType<typeof setTimeout> | null = null;    // Debounce timer
