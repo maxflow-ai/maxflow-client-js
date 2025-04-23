@@ -218,7 +218,7 @@ export default class MaxflowClient {
         `/api/workflow/run/${workflow_id}${options?.callbackUrl ? '?callbackUrl=' + options.callbackUrl : ''}`,
         {
           params: options?.params,
-          payload: options?.data,
+          data: options?.data,
           
         }
       );
@@ -234,7 +234,7 @@ async runPublic(public_id: string, options: RunOptions={}) {
   try {
     return await this.http(false).post(`/api/share/${this.teamId}/${public_id}${options?.callbackUrl ? '?callbackUrl=' + options.callbackUrl : ''}`,{
       params: options?.params,
-      payload: options?.data
+      data: options?.data
     })
  }
  catch (error) {
