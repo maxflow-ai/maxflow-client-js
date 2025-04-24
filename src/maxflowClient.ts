@@ -232,7 +232,7 @@ export default class MaxflowClient {
  */
 async runPublic(public_id: string, options: RunOptions={}) {
   try {
-    return await this.http(false).post(`/api/share/${this.teamId}/${public_id}${options?.callbackUrl ? '?callbackUrl=' + options.callbackUrl : ''}`,{
+    return await this.http(false).post(`/api/integration/${this.teamId}/${public_id}${options?.callbackUrl ? '?callbackUrl=' + options.callbackUrl : ''}`,{
       params: options?.params,
       data: options?.data
     })
