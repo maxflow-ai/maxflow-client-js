@@ -245,7 +245,7 @@ async runPublic(public_id: string, options: RunOptions={}) {
 /**
  * Get the status of a shared workflow
  */
-async getRunPublicStatus(execution_id:string, public_id: string) {
+async getExecutionPublicStatus(execution_id:string, public_id: string) {
   try {
     return await this.http(false).get(`/api/workflow/log?logId=${execution_id}&publicId=${public_id}`);
   } catch (error) {
