@@ -38,6 +38,7 @@
     "build": "tsup src/index.ts --dts --format cjs,esm --out-dir dist",
     "prepare": "yarn build",
     "prepublishOnly": "yarn build",
+    "publish": "yarn build && npm publish",
     "lint": "eslint . --ext .ts",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
