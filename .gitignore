@@ -28,4 +28,5 @@ yarn-error.log*
 
 # Ignore all files in the akash directory
 akash/*
-
+# Ignore all files in the playground directory
+playground/*

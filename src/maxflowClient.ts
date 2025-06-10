@@ -6,6 +6,7 @@ import axios, { type AxiosInstance, type AxiosResponse } from 'axios';
 export interface MaxflowConfig {
   apiKey?: string;     // Your public API key for authentication
   teamId?: string;     // Team identifier in Maxflow system
+  applicationId?: string; // Application Identifier in Maxflow system
   baseURL?: string;    // Base URL for API requests (defaults to Maxflow cloud)
   apiSecret?: string;  // Secret key for secure endpoints
 }
@@ -69,6 +70,7 @@ export default class MaxflowClient {
   private apiKey: string | null = null;   // Holds API key
   private apiSecret: string | null = null;// Holds API secret
   private teamId: string | null = null;   // Holds Team ID
+  private applicationId: string | null = null // Holds Application ID
   private baseURL = 'https://app.gomaxflow.ai'; // Default API URL
 
   private queue: QueueItem[] = [];        // Internal queue buffer
@@ -87,6 +89,7 @@ export default class MaxflowClient {
       this.apiKey = config.apiKey ?? null;
       this.teamId = config.teamId ?? null;
       this.apiSecret = config.apiSecret ?? null;
+      this.applicationId = config.applicationId ?? null;
       this.baseURL = config.baseURL ?? this.baseURL;
     }
   }
@@ -95,7 +98,7 @@ export default class MaxflowClient {
    * Lazily instantiate and configure Axios instance
    */
   private http(auth = true): AxiosInstance {
-    if (auth==false) {
+    if (auth == false) {
       this.axiosInstance = axios.create({
         baseURL: this.baseURL,
         timeout: 10000,
@@ -119,6 +122,7 @@ export default class MaxflowClient {
     headers['x-api-key'] = this.apiKey!;
     headers['x-max-team-id'] = this.teamId!;
     headers['x-api-secret'] = this.apiSecret!;
+    headers['x-max-application-id'] = this.applicationId
     this.axiosInstance.defaults.baseURL = this.baseURL;
 
     return this.axiosInstance;
@@ -135,6 +139,11 @@ export default class MaxflowClient {
   setTeamId(id: string) { this.teamId = id; return this; }
 
   /**
+   * Set or update the Application ID
+   */
+  setApplicationId(id: string) { this.applicationId = id; return this; }
+
+  /**
    * Set or update the Base URL
    */
   setBaseURL(url: string) { this.baseURL = url; return this; }
@@ -143,8 +152,9 @@ export default class MaxflowClient {
    * Ensure required config values are present
    */
   private validateConfig() {
-    if (!this.apiKey) throw new Error('API Key is not set');
     if (!this.teamId) throw new Error('Team ID is not set');
+    if (!this.applicationId) throw new Error('Application ID is not set');
+    if (!this.apiKey) throw new Error('API Key is not set');
     if (!this.apiSecret) throw new Error('API Secret is not set');
   }
 
@@ -218,8 +228,7 @@ export default class MaxflowClient {
         `/api/workflow/run/${workflow_id}${options?.callbackUrl ? '?callbackUrl=' + options.callbackUrl : ''}`,
         {
           params: options?.params,
-          payload: options?.data,
-          
+          data: options?.data,
         }
       );
     } catch (error) {
@@ -232,9 +241,9 @@ export default class MaxflowClient {
  */
 async runPublic(public_id: string, options: RunOptions={}) {
   try {
-    return await this.http(false).post(`/api/share/${this.teamId}/${public_id}${options?.callbackUrl ? '?callbackUrl=' + options.callbackUrl : ''}`,{
+    return await this.http(false).post(`/api/integration/${this.teamId}/${public_id}${options?.callbackUrl ? '?callbackUrl=' + options.callbackUrl : ''}`,{
       params: options?.params,
-      payload: options?.data
+      data: options?.data
     })
  }
  catch (error) {
@@ -245,7 +254,7 @@ async runPublic(public_id: string, options: RunOptions={}) {
 /**
  * Get the status of a shared workflow
  */
-async getRunPublicStatus(execution_id:string, public_id: string) {
+async getExecutionPublicStatus(execution_id:string, public_id: string) {
   try {
     return await this.http(false).get(`/api/workflow/log?logId=${execution_id}&publicId=${public_id}`);
   } catch (error) {
