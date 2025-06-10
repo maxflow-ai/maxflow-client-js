@@ -23,7 +23,8 @@ import MaxflowClient from '@maxflow/client';
 const client = new MaxflowClient({
   apiKey: 'YOUR_API_KEY',
   apiSecret: 'YOUR_API_SECRET',
-  teamId: 'YOUR_TEAM_ID'
+  teamId: 'YOUR_TEAM_ID',
+  applicationId: 'YOUR_APPLICATION_ID'
 });
 
 // Send a simple pulse event
@@ -45,6 +46,7 @@ const client = new MaxflowClient({
   apiKey: 'YOUR_API_KEY',       // Required for authenticated endpoints
   apiSecret: 'YOUR_API_SECRET', // Required for authenticated endpoints
   teamId: 'YOUR_TEAM_ID',       // Your team identifier in Maxflow
+  applicationId: 'YOUR_APPLICATION_ID', // Your application identifier in Maxflow
   baseURL: 'https://custom.maxflow.instance.com' // Optional custom endpoint
 });
 ```
@@ -54,6 +56,7 @@ You can also set or update these values after initialization:
 ```javascript
 client.setApiKey('NEW_API_KEY', 'NEW_API_SECRET');
 client.setTeamId('NEW_TEAM_ID');
+client.setApplicationId('NEW_APPLICATION_ID');
 client.setBaseURL('NEW_BASE_URL');
 ```
 
