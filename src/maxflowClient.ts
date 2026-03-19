@@ -236,31 +236,33 @@ export default class MaxflowClient {
     }
   }
 
-/**
- * Trigger a shared workflow run endpoint without authentication
- */
-async runPublic(public_id: string, options: RunOptions={}) {
-  try {
-    return await this.http(false).post(`/api/integration/${this.teamId}/${public_id}${options?.callbackUrl ? '?callbackUrl=' + options.callbackUrl : ''}`,{
-      params: options?.params,
-      data: options?.data
-    })
- }
- catch (error) {
-  throw error;
- } 
-}
-
-/**
- * Get the status of a shared workflow
- */
-async getExecutionPublicStatus(execution_id:string, public_id: string) {
-  try {
-    return await this.http(false).get(`/api/workflow/log?logId=${execution_id}&publicId=${public_id}`);
-  } catch (error) {
-    throw error;
+  /**
+   * Trigger a shared workflow run endpoint without authentication
+   */
+  async runPublic(public_id: string, options: RunOptions = {}) {
+    try {
+      return await this.http(false).post(
+        `/api/integration/${this.teamId}/${public_id}${options?.callbackUrl ? '?callbackUrl=' + options.callbackUrl : ''}`,
+        {
+          params: options?.params,
+          data: options?.data,
+        }
+      );
+    } catch (error) {
+      throw error;
+    }
   }
-}
+
+  /**
+   * Get the status of a shared workflow
+   */
+  async getExecutionPublicStatus(execution_id: string, public_id: string) {
+    try {
+      return await this.http(false).get(`/api/workflow/log?logId=${execution_id}&publicId=${public_id}`);
+    } catch (error) {
+      throw error;
+    }
+  }
 
   /**
    * Fetch execution logs/status by ID
